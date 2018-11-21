@@ -19,12 +19,12 @@ class Clock {
 
         for(let i = 0; i < 13; i++) {
             points[i] = {   
-                x: centerPoint.x - Math.cos( ( 2*Math.PI / 12 * i))  * radius ,
-                y: centerPoint.y + Math.sin( ( 2*Math.PI / 12 * i))  * radius
+                x: centerPoint.x + Math.cos( ( 2*Math.PI / 12 * (i - 2)))  * radius,
+                y: centerPoint.y + Math.sin( ( 2*Math.PI / 12 * (i - 2)))  * radius
             }
         }
 
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "grey";
         
         ctx.beginPath();
         ctx.moveTo(centerPoint.x, centerPoint.y);
@@ -39,18 +39,41 @@ class Clock {
         ctx.beginPath();
         ctx.moveTo(centerPoint.x, centerPoint.y);
         points.map( (elem) => {
-            const shiftX = elem.x - 200;
-            const shiftY = elem.y - 200; 
+            const shiftX = (elem.x - 200) * 0.03; //0.1 thickness of frame
+            const shiftY = (elem.y - 200) * 0.03; 
 
-            ctx.lineTo(elem.x - shiftX*0.1, elem.y - shiftY*0.1);
+            ctx.lineTo(elem.x - shiftX, elem.y - shiftY);
         })
         ctx.closePath();
         ctx.fill();
 
     }
+    drawNumbers () {
+        const ctx = document.querySelector(`#${this.properties.id}`).getContext('2d');        
+        const {maxHeight, maxWidth} = this.properties;
+        const radius = maxHeight < maxWidth ? maxHeight/2 : maxWidth/2;
+        const centerPoint = {x: radius, y: radius};     
+        const points = [];
+
+        for(let i = 0; i < 12; i++) {
+            points[i] = {   
+                x: centerPoint.x + Math.cos( ( 2*Math.PI / 12 * (i - 2)))  * radius * 0.85 ,
+                y: centerPoint.y + Math.sin( ( 2*Math.PI / 12 * (i - 2)))  * radius * 0.85,
+                i: i+1
+            }
+        }
+
+        ctx.fillStyle = "black"; 
+        ctx.font="bold 20px Georgia";
+        points.map( (point) => {
+            if(point.i>=10) ctx.fillText(point.i, point.x -10, point.y +10); 
+            else ctx.fillText(point.i, point.x, point.y + 10);
+        });
+    }
     animate () {        
         // Obramowanie
         this.drawFrame();
+        this.drawNumbers();
     }
 } 
 
