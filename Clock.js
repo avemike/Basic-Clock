@@ -69,7 +69,6 @@ class Clock {
     drawArrows () {
         const {ctx, centerPoint, radius} = this.properties;
         const date = new Date();
-        const points = [];
 
         const times = [
             date.getSeconds()/60,
@@ -77,12 +76,11 @@ class Clock {
             date.getHours()/12
         ]
 
-        times.map( (time) => {
-            points.push({
+        const points = times.map( (time) => ({
                 x: Math.cos( 2*Math.PI * time - Math.PI/2) * radius + centerPoint.x,
                 y: Math.sin( 2*Math.PI * time - Math.PI/2) * radius + centerPoint.y,
             })
-        })
+        )
 
         ctx.fillStyle = "black";
         //Drawing arrows
@@ -95,15 +93,9 @@ class Clock {
         }
     }
     animate () {   
-        const anim = () => {
-            this.drawFrame();
-            this.drawNumbers();
-            this.drawArrows();
-            window.requestAnimationFrame(anim);
-        }     
-        anim();
+        this.drawFrame();
+        this.drawNumbers();
+        this.drawArrows();
+        window.requestAnimationFrame(this.animate.bind(this));     
     }
-} 
-
-const clock01 = new Clock('clock', 400, 400);
-clock01.animate(); 
+}

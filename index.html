@@ -5,10 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .big-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-flow: column nowrap;
+            align-items: center;
+            justify-content: center;
+        }
+        .big-container > h1 {
+            margin-top: -3em;
+        }
+    </style>
 </head>
 <body>
-    <canvas id="clock" width="400" height="400"></canvas>
-
-    <script src="clock.js"></script>
+    <div class="big-container">
+        <h1>What time is it right now?</h1>
+        <canvas id="clock" width="400" height="400"></canvas>        
+    </div>
+    
+    <script src="Clock.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
